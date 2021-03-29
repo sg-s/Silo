@@ -98,6 +98,9 @@ methods
 	end
 
 	function self = horzcat(self, X)
+		if nargin == 1
+			return
+		end
 		self = self.cat(X);
 	end
 
@@ -107,6 +110,7 @@ methods
 
 	function self = cat(self,X)
 		props = properties(self);
+
 		for i = 1:length(props)
 			self.(props{i}) = [self.(props{i}); X.(props{i})];
 		end
