@@ -65,6 +65,33 @@ methods
 	end
 
 
+
+	% insert one element at a particular location
+	% if you run this backwards in a loop you can grow
+	% an array efficiently 
+	function self = insertAt(self,S, loc)
+		arguments
+			self (1,1) Silo
+			S (1,1) struct
+			loc (1,1) double
+		end
+
+
+		props = properties(self);
+		for i = 1:length(props)
+
+			% allow for some type robustness
+			if ischar(S.(props{i})) & isa(self.(props{i}),'double')
+				S.(props{i}) = str2double(S.(props{i}));
+			end
+
+			self.(props{i})(loc) = S.(props{i});
+		end
+		self.Size = length(self.(props{i}));
+
+	end
+
+
 	function X = new(self)
 		f = str2func(class(self));
 		X = f();
@@ -101,9 +128,15 @@ methods
 			value = self.new;
 			props = properties(self);
 			for i = 1:length(props)
-				value.(props{i}) = self.(props{i})(key.subs{1});
+				value.(props{i}) = self.(props{i})(key(1).subs{1});
 			end
 			value.Size = length(value.(props{1}));
+
+			if length(key) > 1
+				key = key(2:end);
+				value = value.subsref(key);
+			end
+
 		else
 			value = builtin('subsref',self,key);
 		end
