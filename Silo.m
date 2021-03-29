@@ -111,13 +111,33 @@ methods
 	function self = cat(self,X)
 		props = properties(self);
 
-		for i = 1:length(props)
-			self.(props{i}) = [self.(props{i}); X.(props{i})];
+		if X.Size == 0
+			return
+		end
+
+
+		if self.Size == 0
+			self = X;
+			self.Size = X.Size;
+			return
+		else
+			for i = 1:length(props)
+				self.(props{i}) = [self.(props{i}); X.(props{i})];
+			end
 		end
 		self.Size = self.Size + X.Size;
 
 	end
 
+	function ok = checkSize(self)
+		props = properties(self);
+		ok = false;
+		for i = 2:length(props)
+			disp(props{i})
+			assert(length(self.(props{i})) == length(self.(props{1})))
+		end
+		ok = true;
+	end
 
 	function props = properties(self)
 		props = builtin('properties',self);
