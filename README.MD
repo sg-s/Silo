@@ -1,5 +1,7 @@
 # SILO: fast saving, loading and operations on vectors of objects 
 
+[![View Silo on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/89917-silo)
+
 ## Problem description
 
 Often, we want to write a class to enforce a certain data structure and to associate bound functions (methods) to that object. For example, here is a simple class that defines some object:
